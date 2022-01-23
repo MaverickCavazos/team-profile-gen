@@ -1,3 +1,12 @@
+const renderTeam = () => {
+  const renderManager = () => {}
+
+  const renderEnginner = () => {}
+
+  const renderIntern = () => {}
+}
+
+
 module.exports = (name, github, role, ID, office, email) => {
     return `
     <!DOCTYPE html>
