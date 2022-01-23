@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-const { choices } = require('yargs');
 const generatePage = require('./src/page-template.js');
 /* const intern = require('./lib/_mocks_/Intern.js');
 const employee= require('./lib/_mocks_/Employee.js');
@@ -68,7 +67,7 @@ const promptUser = () => {
   };
   
  const job = () => {
-      if (promptUser.choices = 0) {
+      if (promptUser.choices === 0) {
         engineer = () => {
             return inquirer.prompt([
                 {
@@ -86,22 +85,9 @@ const promptUser = () => {
                 },
             ])
           }
-        } if (promptUser.indexOf(choices[1])) {
+        } if (promptUser.choices === 1) {
             manager = () => {
                 return inquirer.prompt([
-                    {
-                        type: 'input',
-                        name: 'email',
-                        message: 'What is your email? (Required)',
-                        validate: nameInput => {
-                          if (nameInput) {
-                            return true;
-                          } else {
-                            console.log('Please enter your name!');
-                            return false;
-                          }
-                        }
-                    },
                     {
                         type: 'input',
                         name: 'office',
@@ -119,7 +105,7 @@ const promptUser = () => {
                 ])
               }
    
-         } if (promptUser.indexOf(choices[2])) {
+         } if (promptUser.choices === 2) {
             intern = () => {
                 return inquirer.prompt([
                     {
@@ -160,6 +146,7 @@ const promptUser = () => {
 
   promptUser()
   .then(job);
+  
  
   
   
