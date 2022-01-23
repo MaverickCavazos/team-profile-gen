@@ -8,6 +8,7 @@ const engineer = require('./lib/_mocks_/engineer.js'); */
 
 
 const promptUser = () => {
+  
     return inquirer.prompt([
         {
             type: 'input',
@@ -62,12 +63,11 @@ const promptUser = () => {
               }
             }
         },
-    ])
-    
+    ]) 
   };
   
  const job = () => {
-      if (promptUser.choices === 0) {
+      if (promptUser.role == 'Engineer') {
         engineer = () => {
             return inquirer.prompt([
                 {
@@ -85,7 +85,7 @@ const promptUser = () => {
                 },
             ])
           }
-        } if (promptUser.choices === 1) {
+        } else if (promptUser.role == 'Manager') {
             manager = () => {
                 return inquirer.prompt([
                     {
@@ -105,7 +105,7 @@ const promptUser = () => {
                 ])
               }
    
-         } if (promptUser.choices === 2) {
+         } else if (promptUser.role == 'Intern') {
             intern = () => {
                 return inquirer.prompt([
                     {
@@ -140,12 +140,14 @@ const promptUser = () => {
 
         } else {
         console.log('input invalid!')
+        
          }
     };
         
 
   promptUser()
-  .then(job);
+  .then(console.log);
+  
   
  
   
