@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const generatePage = require('./src/page-template.js');
-const fs = requirer('fs');
+const fs = require('fs');
 /* const intern = require('./lib/_mocks_/Intern.js');
 const employee= require('./lib/_mocks_/Employee.js'); */
 const Manager = require('./lib/_mocks_/Manager');
@@ -225,7 +225,10 @@ const job = (role) => {
 
 
 promptManager()
-  .then(console.log);
+
+  
+  
+
 
 
 
