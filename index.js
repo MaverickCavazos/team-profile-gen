@@ -260,7 +260,7 @@ const roleIntern = () => {
     if (answers.more === 'Yes') {
       optionMenu(answers);
     } else {
-      writeToFile('index.html', generatePage({ ...answers }))
+      writeToFile('./dist/index.html', generatePage({ ...answers }))
       console.log('your profile has been made!')
     }
   })
