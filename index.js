@@ -9,6 +9,12 @@ const teamMembers = [];
 // this is used to make sure there isnt repeat ids
 /* const idArray = []; */
 
+function writeToFile(fileName, data) {
+  console.log('writeToFile');
+  return fs.writeFileSync(fileName, data)
+}
+
+
 const promptManager = () => {
 
   return inquirer.prompt([
@@ -78,7 +84,7 @@ const optionMenu = () => {
     {
       type: 'list',
       name: 'role',
-      message: 'What is your role? (Choose one)',
+      message: 'Manager profile is complete, what is the next employees role? (Choose one)',
       choices: ['Engineer', 'Intern', 'None'],
       validate: roleInput => {
         if (roleInput) {
@@ -90,141 +96,180 @@ const optionMenu = () => {
       }
     },
   ]).then(answers => {
-    job(answers.role)
+    if (answers.role === 'Engineer') {
+      roleEngineer(answers);
+    } else if (answers.role === 'Intern') {
+      roleIntern(answers);
+    } else {
+      console.log('your profile has been made!')
+    }
   })
-}
+};
 
-const job = (role) => {
-  if (role == 'Engineer') {
-    engineer = () => {
-      return inquirer.prompt([
-        {
-          type: 'input',
-          name: 'engineername',
-          message: 'What is the engineers name?',
-          validate: nameInput => {
-            if (nameInput) {
-              return true;
-            } else {
-              console.log('Please enter your name!');
-              return false;
-            }
-          }
-        },
+const roleEngineer = () => {
+  return inquirer.prompt([
+    {
+      type: 'input',
+      name: 'engineername',
+      message: 'What is the engineers name?',
+      validate: nameInput => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log('Please enter your name!');
+          return false;
+        }
+      }
+    },
 
-        {
-          type: 'input',
-          name: 'engineerID',
-          message: 'What is your engineer ID? (Required)',
-          validate: idInput => {
-            if (idInput) {
-              return true;
-            } else {
-              console.log('Please enter a valid ID!');
-              return false;
-            }
-          }
-        },
-        {
-          type: 'input',
-          name: 'engineeremail',
-          message: 'What is the engineer email? (Required)',
-          validate: emailInput => {
-            if (emailInput) {
-              return true;
-            } else {
-              console.log('Please enter your name!');
-              return false;
-            }
-          }
-        },
-        {
-          type: 'input',
-          name: 'github',
-          message: 'What is your github username?',
-          validate: nameInput => {
-            if (nameInput) {
-              return true;
-            } else {
-              console.log('Please enter your github username!');
-              return false;
-            }
-          }
-        },
-      ]).then(answers => {
-        optionMenu()
-      })
-    }
-  } else if (role == 'Intern') {
-    intern = () => {
-      return inquirer.prompt([
-        {
-          type: 'input',
-          name: 'internname',
-          message: 'What is the intern name?',
-          validate: nameInput => {
-            if (nameInput) {
-              return true;
-            } else {
-              console.log('Please enter your name!');
-              return false;
-            }
-          }
-        },
-
-        {
-          type: 'input',
-          name: 'engineerID',
-          message: 'What is your intern ID? (Required)',
-          validate: idInput => {
-            if (idInput) {
-              return true;
-            } else {
-              console.log('Please enter a valid ID!');
-              return false;
-            }
-          }
-        },
-        {
-          type: 'input',
-          name: 'internemail',
-          message: 'What is the intern email? (Required)',
-          validate: emailInput => {
-            if (emailInput) {
-              return true;
-            } else {
-              console.log('Please enter your name!');
-              return false;
-            }
-          }
-        },
-        {
-          type: 'input',
-          name: 'school',
-          message: 'What school do you attend?',
-
-          validate: schoolInput => {
-            if (schoolInput) {
-              return true;
-            } else {
-              console.log('Please enter a valid school!');
-              return false;
-            }
-          }
-        },
-      ]).then(answers => {
-        optionMenu()
-      })
-    }
-
-  } else {
-    fs.writetoFile('./dist/index.html', generatePage(teamMembers))
-
-  }
+    {
+      type: 'input',
+      name: 'engineerID',
+      message: 'What is your engineer ID? (Required)',
+      validate: idInput => {
+        if (idInput) {
+          return true;
+        } else {
+          console.log('Please enter a valid ID!');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'engineeremail',
+      message: 'What is the engineer email? (Required)',
+      validate: emailInput => {
+        if (emailInput) {
+          return true;
+        } else {
+          console.log('Please enter your name!');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'github',
+      message: 'What is your github username?',
+      validate: nameInput => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log('Please enter your github username!');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'list',
+      name: 'more',
+      message: 'Would you like to add another employee?',
+      choices: ['Yes', 'No'],
+      validate: roleInput => {
+        if (roleInput) {
+          return true;
+        } else {
+          console.log('Please only choose one!');
+          return false;
+        }
+      }
+    },
+  ]).then(answers => {
+      if (answers.more === 'Yes') {
+        optionMenu(answers);
+      } else {
+        writeToFile('index.html', generatePage({ ...answers }))
+        console.log('your profile has been made!')
+      }
+    })
 };
 
 
-promptManager()
+const roleIntern = () => {
+  return inquirer.prompt([
+    {
+      type: 'input',
+      name: 'internname',
+      message: 'What is the intern name?',
+      validate: nameInput => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log('Please enter your name!');
+          return false;
+        }
+      }
+    },
+
+    {
+      type: 'input',
+      name: 'internID',
+      message: 'What is your intern ID? (Required)',
+      validate: idInput => {
+        if (idInput) {
+          return true;
+        } else {
+          console.log('Please enter a valid ID!');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'internemail',
+      message: 'What is the intern email? (Required)',
+      validate: emailInput => {
+        if (emailInput) {
+          return true;
+        } else {
+          console.log('Please enter your name!');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'school',
+      message: 'What school do you attend?',
+
+      validate: schoolInput => {
+        if (schoolInput) {
+          return true;
+        } else {
+          console.log('Please enter a valid school!');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'list',
+      name: 'more',
+      message: 'Would you like to add another employee?',
+      choices: ['Yes', 'No'],
+      validate: roleInput => {
+        if (roleInput) {
+          return true;
+        } else {
+          console.log('Please only choose one!');
+          return false;
+        }
+      }
+    },
+  ]).then(answers => {
+    if (answers.more === 'Yes') {
+      optionMenu(answers);
+    } else {
+      writeToFile('index.html', generatePage({ ...answers }))
+      console.log('your profile has been made!')
+    }
+  })
+}
+
+
+
+
+promptManager();
 
   
   
